@@ -1,41 +1,38 @@
-import React, { ReactNode } from 'react'
-import Link from 'next/link'
-import Head from 'next/head'
+import Head from "next/head";
+import { useRouter } from "next/router";
+import Header from "./Header";
+import Footer from "./Footer";
+import * as React from "react";
 
-type Props = {
-  children?: ReactNode
-  title?: string
+type LayoutProps = {
+  title?: string;
+  keywords?: string;
+  description?: string;
+  children: React.ReactNode;
+};
+
+export default function Layout({
+  title = "First",
+  keywords = "music, dj",
+  description = "bimbo",
+  children,
+}: LayoutProps) {
+  const router = useRouter();
+
+  return (
+    <div className="font-body">
+      <div className="px-4 py-5 mx-auto sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
+        <Head>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <meta name="keywords" content={keywords} />
+        </Head>
+
+        <Header />
+
+        <div className="py-6 md:py-8 mb-8 md:mb-12 xl:mb-16">{children}</div>
+        <Footer />
+      </div>
+    </div>
+  );
 }
-
-const Layout = ({ children, title = 'This is the default title' }: Props) => (
-  <div>
-    <Head>
-      <title>{title}</title>
-      <meta charSet="utf-8" />
-      <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    </Head>
-    <header>
-      <nav>
-        <Link href="/">
-          <a>Home</a>
-        </Link>{' '}
-        |{' '}
-        <Link href="/about">
-          <a>About</a>
-        </Link>{' '}
-        |{' '}
-        <Link href="/users">
-          <a>Users List</a>
-        </Link>{' '}
-        | <a href="/api/users">Users API</a>
-      </nav>
-    </header>
-    {children}
-    <footer>
-      <hr />
-      <span>I'm here to stay (Footer)</span>
-    </footer>
-  </div>
-)
-
-export default Layout
